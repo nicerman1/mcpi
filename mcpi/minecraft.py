@@ -370,6 +370,30 @@ class Minecraft:
     def removeEntities(self, typeId=-1):
         """Remove entities all currently loaded Entities by type (typeId:int) => (removedEntitiesCount:int)"""
         return int(self.conn.sendReceive(b"world.removeEntities", typeId))
+    
+    def getWorlds(self):
+        """Return a list the names of all avaialable worlds in Minecraft"""  
+        s = self.conn.sendReceive(b"getWorlds")
+        worldNameList = s.split(",")
+        return worldNameList[:-1]
+    
+    def getCurrentWorld(self):
+        """Return the active world RaspberryJuice is using"""
+        s = self.conn.sendReceive(b"getCurrentWorld")
+        return s
+    
+    def getPlayerWorld(self, id):
+        """Return the worldname a player is in"""
+        s = self.conn.sendReceive(b"player.getWorld")
+        return s
+    
+    def setWorld(self, world):
+        """Set the active world RaspberryJuice uses"""
+        s = self.conn.sendReceive(b"setWorld", world)
+        return s
+        
+
+    
 
     @staticmethod
     def create(address = "localhost", port = 4711):
